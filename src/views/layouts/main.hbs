@@ -3,10 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
+    <title>{{pageTitle}} - Modisko</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{pageTitle}}</title>
 
-    <link rel="stylesheet" href="/css/styles.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
@@ -14,32 +15,29 @@
     <!-- HEADER -->
     <header class="header">
         <div class="container">
-
-            <!-- LOGO -->
             <div class="logo">
-                <a href="/">Heladería Mordisko 🍦</a>
+                <a href="/">🍦 Mordisko </a>
             </div>
 
-            <!-- NAV -->
             <nav class="nav">
                 <ul>
-                    <li><a href="/crearCategorias">Crear categorías</a></li>
-                    <li><a href="/Productos">Productos</a></li>
-                    <li><a href="/crear-producto">Crear producto</a></li>
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/crear-categoria">Crear Categoria</a></li>
+                    <li><a href="/crear-producto">Crear Producto</a></li>
                 </ul>
             </nav>
-
         </div>
     </header>
 
-    <!-- CONTENIDO DINÁMICO -->
-    <main class="container">
-        {{{body}}}
+    <main class="main-content">
+        <div class="container">
+            {{{body}}}
+        </div>
     </main>
 
     <!-- FOOTER -->
     <footer class="footer">
-        <p>© 2026 Heladería Mordisko</p>
+        <p>© 2026 - App de Helados 🍨</p>
     </footer>
 
 </body>

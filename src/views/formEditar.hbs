@@ -1,0 +1,29 @@
+<h2 class="text-center mt-4">Editar Producto ✏️</h2>
+
+<div class="form-container">
+
+    <form action="/editar-producto/{{producto.id}}" method="POST" class="formulario">
+
+        <label>Nombre</label>
+        <input type="text" name="nombre" value="{{producto.nombre}}" required>
+
+        <label>Descripcion</label>
+        <textarea name="descripcion">{{producto.descripcion}}</textarea>
+
+        <label>Precio($)</label>
+        <input type="number" name="precio" value="{{producto.precio}}" required>
+
+        <label>Categoria</label>
+        <select name="CategoriaId" required>
+            {{#each categorias}}
+            <option value="{{this.id}}" {{#if (eq this.id ../producto.CategoriaId)}}selected{{/if}}>
+                {{this.nombre}}
+            </option>
+            {{/each}}
+        </select>
+
+        <button type="submit" class="btn-guardar">Guardar cambios</button>
+
+    </form>
+
+</div>
