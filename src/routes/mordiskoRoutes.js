@@ -8,16 +8,19 @@ import {
     deleteProducto,
     getFormEditarProducto,
     updateProducto,
-    auth
+   getAuth
 } from '../controllers/mordiskoController.js'
 
 const router = express.Router()
 
 router.get('/', home)
 
-//login
-router.get('/login', auth)
+/// RUTAS DE AUTENTICACIÓN
+router.get('/login', getAuth.showLogin);      // Muestra el login
+router.post('/login', getAuth.loginPost);     // Procesa el login
 
+router.get('/register', getAuth.showRegister); // Muestra el registro (nuvo usuario)
+router.post('/register', getAuth.register);   // Procesa el registro
 
 // categorias
 router.get('/crear-categoria', getFormCategoria)

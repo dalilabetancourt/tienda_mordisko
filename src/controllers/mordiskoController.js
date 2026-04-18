@@ -1,11 +1,67 @@
 import { raw } from "express"
 import { Categoria, Productos, User } from "../models/index.js"
-import bcrypt from 'bcryptjs'
+import bcrypt, { truncates } from "bcryptjs";
 
-//login
-const auth = (req, res)=>{
-    login:(req, res)=>{
-    res.render('login');
+//registro
+// src/controllers/mordiskoController.js
+
+const getAuth = {
+    // GET: Mostrar el login
+    showLogin: (req, res) => {
+        res.render('login');
+    },
+    // GET: Mostrar el registro
+    showRegister: (req, res) => {
+        res.render('register'); // Asegúrate que el archivo se llame registro.hbs
+    },
+    // POST: Procesar el registro (Cambiado de 'showRegister' a 'register')
+    register: async (req, res) => {
+        try {
+            const { email, password } = req.body;
+            // Usamos 'bcrypt' que es como lo importaste arriba
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+
+            await User.create({
+                email,
+                password: hashedPassword
+            });
+
+            res.render('resultado', {
+                mensaje: "Usuario registrado con éxito. ¡Inicia sesión!",
+                esExito: true
+            });
+        } catch (error) {
+            console.error('Error en el registro:', error);
+            res.render('resultado', {
+                mensaje: 'Error al registrarse. Puede que el correo ya esté en uso.',
+                esExito: false
+            });
+        }
+    },
+    // POST: Procesar el login
+    loginPost: async(req, res) => {
+        try {
+            const { email, password } = req.body;
+            const user = await User.findOne({ where: { email }, raw: true });
+
+            if (!user) {
+                return res.render('resultado', { mensaje: "Credenciales incorrectas", esExito: false });
+            }
+
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (isMatch) {
+                // [Inferencia] Usamos backticks (`) para el template string correctamente
+                res.render('resultado', {
+                    mensaje: `¡Bienvenido al sistema ${user.email}!`,
+                    esExito: true
+                });
+            } else {
+                res.render('resultado', { mensaje: 'Credenciales incorrectas', esExito: false });
+            }
+        } catch (error) {
+            res.status(500).send('Error del servidor');
+        }
     }
 };
 
@@ -130,5 +186,5 @@ export {
     deleteProducto,
     getFormEditarProducto,
     updateProducto,
-    auth 
+    getAuth
 }

@@ -1,13 +1,13 @@
 import express from 'express'
-import { create } from 'express-handlebars'
+import exphbs from 'express-handlebars'
 import mordiskoRoter from './routes/mordiskoRoutes.js'
 import db from './config/db.js'
 import path from 'path'
-import bcryptjs from 'bcryptjs'
+
 
 const __dirname = path.resolve();
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4007;
 
 // middlewares
 app.use(express.json());
@@ -28,18 +28,17 @@ const connectDB = async () => {
 connectDB()
 
 // handlebars
-const hbs = create({
-    extname: '.hbs',
-    defaultLayout: 'main',
-    layoutsDir: path.join(__dirname, 'src/views/layouts'),
-    helpers: {
-        eq: (a, b) => Number(a) === Number(b)
-    }
-})
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "src/views"));
 
-app.engine('hbs', hbs.engine)
-app.set('view engine', 'hbs')
-app.set('views', path.join(__dirname, 'src/views'))
+app.engine(
+  "hbs",
+  exphbs.engine({
+    defaultLayout: "main",
+    layoutDir: path.join(__dirname, "src/views/layouts"),
+    extname: ".hbs",
+  }),
+);
 
 // rutas
 app.use('/', mordiskoRoter);

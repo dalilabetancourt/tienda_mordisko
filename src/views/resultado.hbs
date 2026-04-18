@@ -1,0 +1,17 @@
+<div style="text-align: center; margin-top: 50px; font-family: sans-serif;">
+    {{#if esExito}} {{!-- Corregido: antes decía esExite --}}
+        <h2 style="color: #7FFF00;">¡Éxito!</h2>
+        <p style="font-size: 1.2rem;">{{mensaje}}</p>
+    {{else}}
+        <h2 style="color: crimson;">Algo salió mal</h2>
+        <p style="font-size: 1.2rem;">{{mensaje}}</p>
+    {{/if}}
+
+    <br><br>
+    <div style="display: flex; justify-content: center; gap: 20px;">
+        <a href="/" style="text-decoration: none; color: #007bff;">Volver al Inicio</a>
+        {{#if esExito}}
+            <a href="/login" style="text-decoration: none; color: #28a745;">Ir al Login</a>
+        {{/if}}
+    </div>
+</div>
