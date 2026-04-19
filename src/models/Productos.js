@@ -12,15 +12,19 @@ const Productos = sequelize.define('productos', {
         allowNull: false
     },
     descripcion: {
-        type:DataTypes.TEXT  
+        type: DataTypes.TEXT  
     },
-    
     precio: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false
+    },
+    
+    imagen: {
+        type: DataTypes.STRING, 
+        allowNull: true         
     }
 }, {
-    timestamps: true, //createAt Y updateAt
+    timestamps: true,
 });
 
 export default Productos;

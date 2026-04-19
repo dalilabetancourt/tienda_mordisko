@@ -4,26 +4,28 @@
 
     {{#if categorias}}
 
-    <form action="/crear-producto" method="POST" class="formulario">
+    <form action="/crear-producto" method="POST" class="formulario" enctype="multipart/form-data">
+    <label>Nombre</label>
+    <input type="tex" name="nombre" required>
 
-        <label>Nombre</label>
-        <input type="text" name="nombre" required>
+    <label>Descripción</label>
+    <textarea name="descripcion"></textarea>
 
-        <label>Descripcion</label>
-        <textarea name="descripcion"></textarea>
+    <label>Precio($)</label>
+    <input type="number" name="precio" required>
 
-        <label>Precio($)</label>
-        <input type="number" name="precio" required>
+    <label>Categoría</label>
+    <select name="CategoriaId" required>
+        {{#each categorias}}
+        <option value="{{this.id}}">{{this.nombre}}</option>
+        {{/each}}
+    </select>
 
-        <label>Categoria</label>
-        <select name="CategoriaId" required>
-            {{#each categorias}}
-            <option value="{{this.id}}">{{this.nombre}}</option>
-            {{/each}}
-        </select>
+    <label>Imagen del Producto (Opcional)</label>
+    <input type="file" name="imagen" accept="image/*">
 
-        <button type="submit" class="btn-guardar">Guardar</button>
-    </form>
+    <button type="submit" class="btn-guardar">Guardar</button>
+</form>
 
     {{else}}
 

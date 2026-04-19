@@ -1,6 +1,8 @@
 import express from 'express'
-import session from 'express-session'; // Solo este import aquí arriba
+import session from 'express-session';
+import fileUpload from 'express-fileupload';
 import exphbs from 'express-handlebars'
+import { setupPrimary } from 'node:cluster';
 import mordiskoRoter from './routes/mordiskoRoutes.js'
 import db from './config/db.js'
 import path from 'path'
@@ -9,27 +11,35 @@ const __dirname = path.resolve();
 const app = express();
 const PORT = process.env.PORT || 4007;
 
-// 1. Middlewares de parseo
+// 1. Middlewares 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 2. Archivos estáticos
-app.use(express.static(path.join(__dirname, 'src/public')))
+//configuracion de Express-fileUpload
+app.use(fileUpload({
+    createParentPath: true, 
+    limits: { fileSize: 2 * 1024 * 1024 }, // Límite de 2MB
+    abortOnLimit: true,
+    responseOnLimit:"El tamaño del archivo ha superado el limite permitido"
+}));
 
-// 3. Configuración de Sesión (DEBE ir antes de las rutas)
+//  Archivos estáticos
+app.use(express.static(path.join(process.cwd(), 'src', 'public')));
+
+// Configuración de Sesión (DEBE ir antes de las rutas)
 app.use(session({
     secret: 'mordisko-key-2026',
     resave: false,
     saveUninitialized: false
 }));
 
-// 4. Pasar sesión a las vistas (res.locals)
+// Pasar sesión a las vistas (res.locals)
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
     next();
 });
 
-// 5. Handlebars
+// Handlebars
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "src/views"));
 
@@ -39,23 +49,32 @@ app.engine(
     defaultLayout: "main",
     layoutDir: path.join(__dirname, "src/views/layouts"),
     extname: ".hbs",
+   
+    helpers: {
+      eq: (a, b) => a === b
+    }
   }),
 );
-
-// 6. DB Connection
-const connectDB = async () => {
+// DB Connection
+async function startServer() {
     try {
-        await db.sync()
-        console.log('Conexión exitosa a la base de datos')
+        await db.authenticate();
+        await db.sync({ alter: true }); // <--- Esto es lo que te salvará el Home
+        console.log('Conexión a la DB lista');
+        
+        app.listen(4007, () => {
+            console.log('Servidor en puerto 4007');
+        });
     } catch (error) {
-        console.error('Error al conectar con base de datos', error)
+        console.error('No se pudo conectar:', error);
     }
 }
-connectDB()
 
-// 7. Rutas (Siempre al final)
+startServer();
+
+// Rutas (Siempre al final)
 app.use('/', mordiskoRoter);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`🤖 Server is running on http://localhost:${PORT}`);
 });

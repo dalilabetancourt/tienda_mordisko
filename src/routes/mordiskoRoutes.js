@@ -39,6 +39,6 @@ router.get('/editar-producto/:id', eStaloguado, getFormEditarProducto)
 router.post('/editar-producto/:id', eStaloguado, updateProducto)
 
 //eliminar producto
-router.post('/eliminar-producto/:id', deleteProducto)
+router.post('/eliminar-producto/:id', eStaloguado, deleteProducto);
 
 export default router

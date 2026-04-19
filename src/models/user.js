@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../config/db.js";
 
 const User = sequelize.define("users", {
-    // ATRIBUTOS (Columnas de la tabla)
+    
     id: { 
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -18,7 +18,7 @@ const User = sequelize.define("users", {
         allowNull: false
     }
 }, {
-    // OPCIONES DEL MODELO (Aquí es donde va timestamps)
+    
     timestamps: true 
 });
 

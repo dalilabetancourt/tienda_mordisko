@@ -2,40 +2,47 @@
 <p class="text-center mt-4">Registrate para poder crear un producto</p>
 
 <div class="nuevaCategoria">
-    
     <a href="/crear-categoria" class="btn-crear">+ Crear Categoria</a>
-
 </div>
 
 <section class="grid">
-
     {{#if products}}
+        {{#each products}}
+        <div class="card">
+            <div class="producto-imagen">
+                {{#if this.imagen}}
+                    <img src="/img/productos/{{this.imagen}}" alt="{{this.nombre}}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
+                {{else}}
+                    <div style="background: #eee; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 8px 8px 0 0;">
+                        <span>🍦 Sin imagen</span>
+                    </div>
+                {{/if}}
+            </div>
 
-    {{#each products}}
-    <div class="card">
-        <h3>{{this.nombre}}</h3>
+            <div class="card-content" style="padding: 15px;">
+                <h3>{{this.nombre}}</h3>
+                <p>{{this.descripcion}}</p>
+                <p class="precio">$ {{this.precio}}</p>
 
-        <p>{{this.descripcion}}</p>
+                <span class="crear-categoria">
+                    {{#if this.Categoria.nombre}}
+                        {{this.Categoria.nombre}}
+                    {{else}}
+                        Sin categoría
+                    {{/if}}
+                </span>
 
-        <p class="precio">$ {{this.precio}}</p>
+                <div class="acciones">
+                    <a href="/editar-producto/{{this.id}}" class="btn-editar">Editar</a>
 
-        <span class="crear-categoria">
-            {{this.Categoria.nombre}}
- 
-        </span>
-
-        <div class="acciones">
-            <a href="/editar-producto/{{this.id}}" class="btn-editar">Editar</a>
-
-            <form action="/eliminar-producto/{{this.id}}" method="POST" onsubmit="return confirm('¿Eliminar este producto?')">
-                <button type="submit" class="btn-eliminar">Eliminar</button>
-            </form>
+                    <form action="/eliminar-producto/{{this.id}}" method="POST" onsubmit="return confirm('¿Eliminar este producto?')">
+                        <button type="submit" class="btn-eliminar">Eliminar</button>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
-    {{/each}}
-
+        {{/each}}
     {{else}}
-    <p class="text-center">No hay productos disponibles 😢</p>
+        <p class="text-center">No hay productos disponibles 😢</p>
     {{/if}}
-
 </section>

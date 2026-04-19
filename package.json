@@ -9,19 +9,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dalilabetancourt/mordisko-.git"
+    "url": "git+https://github.com/dalilabetancourt/tienda_mordisko"
   },
   "keywords": [],
   "author": "Dalila Betancourt",
   "license": "MIT",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/dalilabetancourt/mordisko-/issues"
+    "url": "https://github.com/dalilabetancourt/tienda_mordisko/issues"
   },
-  "homepage": "https://github.com/dalilabetancourt/mordisko-#readme",
+  "homepage": "https://github.com/dalilabetancourt/tienda_mordisko#readme",
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "express": "^5.2.1",
+    "express-fileupload": "^1.5.2",
     "express-handlebars": "^8.0.7",
     "express-session": "^1.19.0",
     "pg": "^8.20.0",
